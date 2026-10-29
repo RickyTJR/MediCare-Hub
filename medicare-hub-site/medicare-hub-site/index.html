@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MediCare Hub (Demo)</title><meta name="description" content="Demo health website for a computer exam. Not a real or verified medical facility."><meta name="theme-color" content="#0f766e"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#f3f7fa;--cd:#fff;--tx:#12263a;--mu:#5f7186;--pr:#0f766e;--pl:#ddf3f0;--bd:#d9e2ec;--rd:#dc2626;--am:#b45309;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1620;--cd:#15222f;--tx:#e6eef6;--mu:#93a5b8;--pr:#2dd4bf;--pl:#12352f;--bd:#26394b;--rd:#f87171;--am:#fbbf24;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1620;--cd:#15222f;--tx:#e6eef6;--mu:#93a5b8;--pr:#2dd4bf;--pl:#12352f;--bd:#26394b;--rd:#f87171;--am:#fbbf24;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--cd);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--cd);border-bottom:1px solid var(--bd);padding:10px 16px}
+.bar{max-width:1050px;margin:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:18px;color:var(--pr)}.logo span{color:var(--tx)}
+nav{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+nav a{padding:7px 12px;border-radius:99px;color:var(--mu);text-decoration:none;white-space:nowrap;font-weight:600;font-size:14px}
+nav a.on{background:var(--pl);color:var(--pr)}
+main{max-width:1050px;margin:auto;padding:16px}
+h1{font-size:22px;margin:4px 0 2px}h2{font-size:17px;margin:0 0 10px}.mu{color:var(--mu);font-size:13px}
+.g{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.c{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:14px}
+.big{font-size:28px;font-weight:800;line-height:1.1}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:14px}
+.btn.s{background:var(--pl);color:var(--pr)}.btn.d{background:transparent;color:var(--rd);border:1px solid var(--bd)}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit;margin:3px 0 8px}
+label{font-size:12px;font-weight:700;color:var(--mu)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.row .btn{flex:0 0 auto}
+.chip{padding:5px 11px;border-radius:99px;border:1px solid var(--bd);background:var(--cd);color:var(--tx);cursor:pointer;font-size:13px;flex:0 0 auto}
+.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+.av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;flex:0 0 46px}
+.sl{padding:6px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--cd);color:var(--tx);cursor:pointer}
+.sl.on{background:var(--pr);color:#fff}.sl:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;background:var(--pl);color:var(--pr);font-size:12px;font-weight:700}
+.warn{color:var(--rd)}.ok{color:var(--pr)}
+.ov{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:7px;border-bottom:1px solid var(--bd);text-align:left}
+#al{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:20;display:grid;gap:8px;max-width:520px;margin:auto}
+.alc{background:var(--am);color:#fff;border-radius:14px;padding:14px;box-shadow:0 8px 30px #0006}
+.alc b{font-size:16px}.alc .btn{background:#fff;color:#111;margin-top:8px;margin-right:6px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:110px}.bars div{flex:1;background:var(--pr);border-radius:6px 6px 0 0;position:relative;min-height:4px}
+.bars span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:11px;color:var(--mu)}
+footer{text-align:center;padding:20px;color:var(--mu);font-size:12px}
+</style><link rel="stylesheet" href="extras.css"><link rel="stylesheet" href="theme.css"></head><body>
+<header><div class="bar"><div class="logo">Medi<span>Care</span> Hub</div><nav id="nav"></nav></div></header>
+<main id="m"></main>
+<div id="al"></div>
+<footer></footer>
+<script>
+var KEY="medicare-hub-v1",S={p:{name:"",age:"",blood:"",allergy:"",ec:"",ecn:""},ap:[],md:[],nt:[],vt:[],dv:{on:false,name:"",last:"",d:null}};
+try{var raw=localStorage.getItem(KEY);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+var $=function(s){return document.querySelector(s)};
+function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function iso(d){var o=d.getTimezoneOffset()*6e4;return new Date(d-o).toISOString().slice(0,10)}
+var TODAY=iso(new Date());
+function fd(s){return new Date(s+"T00:00").toLocaleDateString("en-PH",{weekday:"short",month:"short",day:"numeric"})}
+function f12(t){var a=t.split(":"),h=+a[0];return(h%12||12)+":"+a[1]+(h<12?" AM":" PM")}
+
+var DOCS=[
+{id:1,n:"Dr. Maria Santos",s:"General Medicine",e:15,f:600,c:"#0f766e",d:"Check-ups, fever, cough, and first consultations."},
+{id:2,n:"Dr. Jose Reyes",s:"Cardiology",e:20,f:1500,c:"#b91c1c",d:"Blood pressure, chest pain, and heart screening."},
+{id:3,n:"Dr. Angela Cruz",s:"Pediatrics",e:12,f:800,c:"#7c3aed",d:"Child health, vaccines, and growth monitoring."},
+{id:4,n:"Dr. Paolo Lim",s:"Dermatology",e:9,f:1000,c:"#c2410c",d:"Skin, hair, and nail concerns."},
+{id:5,n:"Dr. Kristine Ramos",s:"OB-Gynecology",e:14,f:1200,c:"#be185d",d:"Women’s health and prenatal care."},
+{id:6,n:"Dr. Miguel Tan",s:"Orthopedics",e:18,f:1400,c:"#1d4ed8",d:"Bones, joints, and sports injuries."},
+{id:7,n:"Dr. Lara Mendoza",s:"Psychiatry",e:11,f:1300,c:"#0e7490",d:"Stress, anxiety, sleep, and mood support."},
+{id:8,n:"Dr. Ramon Garcia",s:"ENT",e:16,f:900,c:"#4d7c0f",d:"Ear, nose, and throat conditions."},
+{id:9,n:"Dr. Sofia Navarro",s:"Endocrinology",e:13,f:1400,c:"#a16207",d:"Diabetes, thyroid, and hormone care."},
+{id:10,n:"Dr. Carlo Bautista",s:"Dentistry",e:8,f:700,c:"#0369a1",d:"Cleaning, fillings, and oral health."}];
+var SLOTS=["09:00","10:00","11:00","13:00","14:00","15:00","16:00"];
+var B={doc:null,date:TODAY,slot:"",spec:"All",q:"",mode:"In-person"};
+function taken(d,date,t){var h=0,k=d.id+date+t;for(var i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return h%5===0||S.ap.some(function(a){return a.doc===d.id&&a.date===date&&a.t===t})}
+
+var MET={bp:["Blood pressure","mmHg"],hr:["Heart rate","bpm"],glu:["Blood sugar","mg/dL"],wt:["Weight","kg"],temp:["Temperature","°C"],spo2:["Oxygen (SpO₂)","%"]};
+var VM="bp";
+function flag(v){var m=v.m,a=+v.a,b=+v.b;
+if(m==="bp"&&(a>=140||b>=90))return"High";if(m==="bp"&&a<90)return"Low";
+if(m==="hr"&&(a<50||a>110))return"Check";if(m==="spo2"&&a<94)return"Low";
+if(m==="temp"&&a>=37.8)return"Fever";if(m==="glu"&&a>125)return"High";return""}
+
+var TABS=[["home","Home"],["book","Book"],["appts","Appointments"],["meds","Reminders"],["notes","Health notes"],["records","Records"],["device","Watch sync"],["profile","Profile"]];
+function route(){var h=location.hash.slice(1)||"home";if(!TABS.some(function(t){return t[0]===h}))h="home";return h}
+function nav(){var r=route();$("#nav").innerHTML=TABS.map(function(t){return'<a href="#'+t[0]+'" class="'+(r===t[0]?"on":"")+'">'+t[1]+"</a>"}).join("")}
+function draw(){nav();var r=route();$("#m").innerHTML=V[r]();if(r==="book")docs();window.scrollTo(0,0)}
+window.addEventListener("hashchange",draw);
+
+var V={};
+V.home=function(){
+var up=S.ap.filter(function(a){return a.date>=TODAY}).sort(function(a,b){return(a.date+a.t)<(b.date+b.t)?-1:1})[0];
+var tk=S.md.filter(function(m){return m.log&&m.log[TODAY]}).length;
+var lv=S.vt.slice(-1)[0],d=S.dv.d;
+var hr=new Date().getHours(),gr=hr<12?"Good morning":hr<18?"Good afternoon":"Good evening";
+return'<h1>'+gr+(S.p.name?", "+esc(S.p.name.split(" ")[0]):"")+'</h1><p class="mu">'+new Date().toLocaleDateString("en-PH",{weekday:"long",month:"long",day:"numeric",year:"numeric"})+'</p>'+
+'<div class="g">'+
+'<div class="c"><div class="mu">Next appointment</div>'+(up?'<div class="big" style="font-size:20px">'+esc(dn(up.doc))+'</div><div>'+fd(up.date)+" · "+f12(up.t)+'</div><div class="mu">'+esc(up.mode)+'</div>':'<div class="big" style="font-size:18px">None booked</div><p><a class="btn s" href="#book" style="text-decoration:none;display:inline-block">Find a doctor</a></p>')+'</div>'+
+'<div class="c"><div class="mu">Medicines taken today</div><div class="big">'+tk+" / "+S.md.length+'</div><div class="mu">'+(S.md.length?"Keep your streak going":"No reminders yet")+'</div></div>'+
+'<div class="c"><div class="mu">Latest reading</div>'+(lv?'<div class="big">'+esc(lv.a)+(lv.m==="bp"?"/"+esc(lv.b):"")+' <span class="mu">'+MET[lv.m][1]+'</span></div><div>'+MET[lv.m][0]+" · "+fd(lv.date)+'</div>':'<div class="big" style="font-size:18px">No records</div>')+'</div>'+
+'<div class="c"><div class="mu">Steps today (watch)</div>'+(d?'<div class="big">'+d.steps.toLocaleString()+'</div><div class="mu">Heart rate '+d.hr+' bpm · Sleep '+d.sleep+' h</div>':'<div class="big" style="font-size:18px">Not connected</div><p><a class="btn s" href="#device" style="text-decoration:none;display:inline-block">Connect watch</a></p>')+'</div></div>'+
+'<h2 style="margin-top:18px">Quick actions</h2><div class="row" style="gap:8px"><a class="btn" href="#book" style="text-decoration:none">Book a doctor</a><a class="btn s" href="#meds" style="text-decoration:none">Add reminder</a><a class="btn s" href="#records" style="text-decoration:none">Log vitals</a><a class="btn s" href="#notes" style="text-decoration:none">Write note</a></div>'+
+'<div class="g" style="margin-top:16px"><div class="c"><h2>Daily tips</h2><p class="mu" style="font-size:14px">Drink water through the day, sleep 7 to 9 hours, and walk about 30 minutes. Take medicines at the same time every day.</p></div>'+
+'<div class="c"><h2>Emergency</h2><p style="font-size:14px">Call <b>911</b> for chest pain, trouble breathing, stroke signs, or severe bleeding.</p>'+(S.p.ecn?'<p class="mu">Contact: '+esc(S.p.ecn)+" "+esc(S.p.ec)+"</p>":"")+'</div></div>'};
+function dn(id){var d=DOCS.filter(function(x){return x.id===id})[0];return d?d.n+" ("+d.s+")":"Doctor"}
+
+V.book=function(){var sp=["All"].concat(DOCS.map(function(d){return d.s}));
+return'<h1>Book a consultation</h1><p class="mu">Choose a specialty, pick a doctor, then a date and time.</p>'+
+'<input id="q" placeholder="Search doctor or concern" value="'+esc(B.q)+'" oninput="B.q=this.value;docs()">'+
+'<div class="row" style="margin-bottom:12px">'+sp.map(function(s){return'<button class="chip '+(B.spec===s?"on":"")+'" onclick="B.spec=\''+s+'\';draw()">'+s+"</button>"}).join("")+'</div>'+
+'<div id="bk"></div><div class="g" id="dl"></div>'};
+function docs(){var q=B.q.toLowerCase();
+var L=DOCS.filter(function(d){return(B.spec==="All"||d.s===B.spec)&&(d.n+d.s+d.d).toLowerCase().indexOf(q)>-1});
+$("#dl").innerHTML=L.map(function(d){return'<div class="c"><div class="row" style="flex-wrap:nowrap"><div class="av" style="background:'+d.c+'">'+d.n.split(" ").slice(1).map(function(w){return w[0]}).join("")+'</div><div><b>'+d.n+'</b><div class="tag">'+d.s+'</div></div></div><p class="mu" style="font-size:14px">'+d.d+'</p><div class="row"><span class="mu">'+d.e+' yrs · ₱'+d.f.toLocaleString()+'</span><button class="btn" onclick="pick('+d.id+')">Book</button></div></div>'}).join("")||'<p class="mu">No doctors found.</p>';
+bk()}
+function pick(id){B.doc=id;B.slot="";bk();$("#bk").scrollIntoView({behavior:"smooth"})}
+function bk(){var el=$("#bk");if(!el)return;if(!B.doc){el.innerHTML="";return}
+var d=DOCS.filter(function(x){return x.id===B.doc})[0];
+el.innerHTML='<div class="c" style="margin-bottom:12px;border-color:var(--pr)"><h2>Appointment with '+d.n+'</h2><div class="row"><div><label>Date</label><input type="date" min="'+TODAY+'" value="'+B.date+'" onchange="B.date=this.value||TODAY;B.slot=\'\';bk()"></div><div><label>Type</label><select onchange="B.mode=this.value"><option>In-person</option><option'+(B.mode==="Video call"?" selected":"")+'>Video call</option></select></div></div>'+
+'<label>Available times</label><div class="row" style="margin:6px 0 10px">'+SLOTS.map(function(t){var tk=taken(d,B.date,t);return'<button class="sl '+(B.slot===t?"on":"")+'" '+(tk?"disabled":"")+' onclick="B.slot=\''+t+'\';bk()">'+f12(t)+"</button>"}).join("")+'</div>'+
+'<label>Reason for visit</label><textarea id="rs" rows="2" placeholder="Short description of your concern"></textarea>'+
+'<div class="row"><button class="btn" onclick="confirmBk()">Confirm booking</button><button class="btn d" onclick="B.doc=null;bk()">Cancel</button></div></div>'}
+function confirmBk(){if(!B.slot){alert("Please pick a time slot.");return}
+S.ap.push({id:uid(),doc:B.doc,date:B.date,t:B.slot,mode:B.mode,why:$("#rs").value,st:"Confirmed",ref:"MC-"+Math.floor(1e5+Math.random()*9e5)});save();B.doc=null;B.slot="";location.hash="appts"}
+
+V.appts=function(){var L=S.ap.slice().sort(function(a,b){return(a.date+a.t)<(b.date+b.t)?-1:1});
+return'<h1>My appointments</h1>'+(L.length?'<div class="g">'+L.map(function(a){var past=a.date<TODAY;return'<div class="c"><div class="row" style="flex-wrap:nowrap"><b>'+esc(dn(a.doc))+'</b></div><div class="big" style="font-size:18px;margin:6px 0">'+fd(a.date)+" · "+f12(a.t)+'</div><div class="mu">'+esc(a.mode)+" · Ref "+a.ref+'</div>'+(a.why?'<p style="font-size:14px">'+esc(a.why)+"</p>":"")+'<div class="row"><span class="tag">'+(past?"Completed":"Confirmed")+'</span><button class="btn d" onclick="delAp(\''+a.id+'\')">Cancel</button></div></div>'}).join("")+"</div>":'<div class="c">No appointments yet. <a href="#book" style="color:var(--pr);font-weight:700">Book one</a></div>')};
+function delAp(id){if(confirm("Cancel this appointment?")){S.ap=S.ap.filter(function(a){return a.id!==id});save();draw()}}
+
+V.meds=function(){return'<h1>Medicine reminders</h1><p class="mu">Alarms ring while this page is open. Allow notifications for best results.</p>'+
+'<div class="c" style="margin-bottom:12px"><div class="row"><div><label>Medicine</label><input id="mn" placeholder="e.g. Losartan"></div><div><label>Dose</label><input id="md" placeholder="50 mg, 1 tablet"></div><div><label>Time</label><input id="mt" type="time" value="08:00"></div></div><div class="row"><div><label>Note</label><input id="mo" placeholder="After meals"></div><button class="btn" onclick="addMed()">Add reminder</button><button class="btn s" onclick="askN()">Enable alerts</button></div></div>'+
+'<div class="g">'+S.md.map(function(m){var done=m.log&&m.log[TODAY];var days=m.log?Object.keys(m.log).length:0;return'<div class="c"><div class="row" style="flex-wrap:nowrap"><div><b>'+esc(m.n)+'</b><div class="mu">'+esc(m.d)+(m.o?" · "+esc(m.o):"")+'</div></div><div class="big" style="font-size:20px;flex:0 0 auto">'+f12(m.t)+'</div></div><div class="row" style="margin-top:8px"><span class="tag">'+(done?"Taken today":"Pending")+'</span><span class="mu">'+days+' day(s) logged</span></div><div class="row" style="margin-top:8px"><button class="btn s" onclick="take(\''+m.id+'\')">'+(done?"Undo":"Mark taken")+'</button><button class="btn d" onclick="delMed(\''+m.id+'\')">Delete</button></div></div>'}).join("")+(S.md.length?"":'<div class="c mu">No reminders yet.</div>')+'</div>'};
+function addMed(){var n=$("#mn").value.trim();if(!n){alert("Enter a medicine name.");return}
+S.md.push({id:uid(),n:n,d:$("#md").value,t:$("#mt").value||"08:00",o:$("#mo").value,log:{}});save();draw()}
+function take(id){S.md.forEach(function(m){if(m.id===id){m.log=m.log||{};if(m.log[TODAY])delete m.log[TODAY];else m.log[TODAY]=1}});save();draw()}
+function delMed(id){S.md=S.md.filter(function(m){return m.id!==id});save();draw()}
+function askN(){try{Notification.requestPermission().then(function(p){alert(p==="granted"?"Alerts enabled.":"Alerts not allowed. In-page alarms will still show.")})}catch(e){alert("Notifications are not supported here.")}beep()}
+var AC;function beep(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();[0,.3,.6].forEach(function(t){var o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.frequency.value=880;g.gain.value=.15;o.start(AC.currentTime+t);o.stop(AC.currentTime+t+.18)})}catch(e){}}
+var fired={},snooze={};
+function tick(){var n=new Date(),hm=("0"+n.getHours()).slice(-2)+":"+("0"+n.getMinutes()).slice(-2);
+S.md.forEach(function(m){var k=TODAY+m.id+m.t;var due=(m.t===hm&&!fired[k])||(snooze[m.id]&&Date.now()>=snooze[m.id]);
+if(due&&!(m.log&&m.log[TODAY])){fired[k]=1;delete snooze[m.id];ring(m)}})}
+function ring(m){beep();try{if(Notification.permission==="granted")new Notification("Time for "+m.n,{body:m.d||""})}catch(e){}
+var el=document.createElement("div");el.className="alc";el.innerHTML="<b>Medicine time: "+esc(m.n)+"</b><div>"+esc(m.d)+" "+esc(m.o)+"</div>";
+var a=document.createElement("button");a.className="btn";a.textContent="Taken";a.onclick=function(){take(m.id);el.remove()};
+var b=document.createElement("button");b.className="btn";b.textContent="Snooze 5 min";b.onclick=function(){snooze[m.id]=Date.now()+3e5;el.remove()};
+el.appendChild(a);el.appendChild(b);$("#al").appendChild(el)}
+setInterval(tick,15000);
+
+V.notes=function(){return'<h1>Health notes</h1><div class="c" style="margin-bottom:12px"><div class="row"><div><label>Title</label><input id="nt" placeholder="e.g. Headache after lunch"></div><div><label>Mood</label><select id="nm"><option>Good</option><option>Okay</option><option>Tired</option><option>In pain</option><option>Anxious</option></select></div></div><label>Details (symptoms, food, questions for the doctor)</label><textarea id="nb" rows="3"></textarea><button class="btn" onclick="addNote()">Save note</button></div>'+
+'<div class="g">'+S.nt.slice().reverse().map(function(n){return'<div class="c"><div class="row" style="flex-wrap:nowrap"><b>'+esc(n.t)+'</b><span class="tag" style="flex:0 0 auto">'+esc(n.m)+'</span></div><div class="mu">'+fd(n.date)+'</div><p style="font-size:14px;white-space:pre-wrap">'+esc(n.b)+'</p><button class="btn d" onclick="delNote(\''+n.id+'\')">Delete</button></div>'}).join("")+(S.nt.length?"":'<div class="c mu">No notes yet.</div>')+'</div>'};
+function addNote(){var t=$("#nt").value.trim();if(!t){alert("Add a title.");return}S.nt.push({id:uid(),t:t,m:$("#nm").value,b:$("#nb").value,date:TODAY});save();draw()}
+function delNote(id){S.nt=S.nt.filter(function(n){return n.id!==id});save();draw()}
+
+V.records=function(){var L=S.vt.filter(function(v){return v.m===VM});
+var w=S.vt.filter(function(v){return v.m==="wt"}).slice(-1)[0];
+return'<h1>Health records</h1><div class="row" style="margin-bottom:10px">'+Object.keys(MET).map(function(k){return'<button class="chip '+(VM===k?"on":"")+'" onclick="VM=\''+k+'\';draw()">'+MET[k][0]+"</button>"}).join("")+'</div>'+
+'<div class="g" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))"><div class="c"><h2>Add '+MET[VM][0].toLowerCase()+' ('+MET[VM][1]+')</h2><div class="row"><div><label>'+(VM==="bp"?"Systolic":"Value")+'</label><input id="va" type="number" step="any"></div>'+(VM==="bp"?'<div><label>Diastolic</label><input id="vb" type="number"></div>':"")+'<div><label>Date</label><input id="vd" type="date" value="'+TODAY+'"></div></div><button class="btn" onclick="addV()">Save reading</button></div>'+
+'<div class="c"><h2>Trend</h2>'+chart()+'</div></div>'+
+'<div class="g" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:12px"><div class="c"><h2>History</h2><div class="ov"><table><tr><th>Date</th><th>Value</th><th>Status</th><th></th></tr>'+L.slice().reverse().map(function(v){var f=flag(v);return"<tr><td>"+fd(v.date)+"</td><td>"+esc(v.a)+(v.m==="bp"?"/"+esc(v.b):"")+'</td><td class="'+(f?"warn":"ok")+'">'+(f||"Normal range")+'</td><td><button class="btn d" onclick="delV(\''+v.id+'\')">×</button></td></tr>'}).join("")+"</table></div>"+(L.length?"":'<p class="mu">No readings yet.</p>')+'</div>'+
+'<div class="c"><h2>BMI calculator</h2><div class="row"><div><label>Height (cm)</label><input id="bh" type="number" oninput="bmi()"></div><div><label>Weight (kg)</label><input id="bw" type="number" oninput="bmi()" value="'+(w?esc(w.a):"")+'"></div></div><div class="big" id="bo">—</div><p class="mu">Ranges are general guides. Ask a doctor to interpret your results.</p><button class="btn s" onclick="exp()">Export my data (JSON)</button></div></div>'};
+function addV(){var a=$("#va").value;if(a===""){alert("Enter a value.");return}var v={id:uid(),m:VM,a:+a,date:$("#vd").value||TODAY};if(VM==="bp"){v.b=+($("#vb").value||0)}S.vt.push(v);S.vt.sort(function(x,y){return x.date<y.date?-1:1});save();draw()}
+function delV(id){S.vt=S.vt.filter(function(v){return v.id!==id});save();draw()}
+function bmi(){var h=+$("#bh").value/100,w=+$("#bw").value;if(!h||!w){$("#bo").textContent="—";return}var b=w/(h*h);$("#bo").textContent=b.toFixed(1)+" · "+(b<18.5?"Underweight":b<23?"Healthy (Asian range)":b<25?"Overweight risk":"Overweight")}
+function exp(){var u=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));var a=document.createElement("a");a.href=u;a.download="my-health-data.json";document.body.appendChild(a);a.click();a.remove()}
+function chart(){var d=S.vt.filter(function(v){return v.m===VM}).slice(-12);if(d.length<2)return'<p class="mu">Add at least 2 readings to see a trend.</p>';
+var all=d.map(function(v){return v.a}).concat(VM==="bp"?d.map(function(v){return v.b}):[]);var mn=Math.min.apply(0,all),mx=Math.max.apply(0,all);if(mn===mx){mn-=1;mx+=1}
+var W=600,H=200,p=30;function x(i){return p+i*(W-2*p)/(d.length-1)}function y(v){return H-p-(v-mn)/(mx-mn)*(H-2*p)}
+function line(k,col){return'<polyline fill="none" stroke="'+col+'" stroke-width="3" points="'+d.map(function(v,i){return x(i)+","+y(v[k])}).join(" ")+'"/>'+d.map(function(v,i){return'<circle cx="'+x(i)+'" cy="'+y(v[k])+'" r="4" fill="'+col+'"/><text x="'+x(i)+'" y="'+(y(v[k])-9)+'" font-size="11" text-anchor="middle" fill="currentColor">'+v[k]+"</text>"}).join("")}
+return'<svg viewBox="0 0 '+W+" "+H+'" style="width:100%;color:var(--mu)"><line x1="'+p+'" y1="'+(H-p)+'" x2="'+(W-p)+'" y2="'+(H-p)+'" stroke="var(--bd)"/>'+line("a","var(--pr)")+(VM==="bp"?line("b","var(--am)"):"")+"</svg>"+(VM==="bp"?'<div class="mu">Green: systolic · Amber: diastolic</div>':"")}
+
+var WATCHES=["Apple Watch","Samsung Galaxy Watch","Fitbit","Garmin","Xiaomi Mi Band","Huawei Watch"];
+V.device=function(){var D=S.dv;
+if(!D.on)return'<h1>Connect your watch</h1><p class="mu">Link a smartwatch to pull steps, heart rate, oxygen, and sleep into your account.</p><div class="g">'+WATCHES.map(function(w){return'<div class="c"><b>'+w+'</b><p class="mu">Pair through the companion app.</p><button class="btn" onclick="conn(\''+w+'\')">Connect</button></div>'}).join("")+'</div><p class="mu" style="margin-top:12px">Demo note: pairing is simulated with sample data. A real version would use the maker’s health API or Web Bluetooth.</p>';
+var d=D.d,days=["M","T","W","T","F","S","S"],mx=Math.max.apply(0,d.week);
+return'<h1>'+esc(D.name)+' <span class="tag">Connected</span></h1><p class="mu">Last sync: '+esc(D.last)+'</p><div class="g">'+
+[["Steps",d.steps.toLocaleString(),"goal 8,000"],["Heart rate",d.hr+" bpm","resting "+d.rhr],["Oxygen",d.o2+"%","SpO₂"],["Sleep",d.sleep+" h","last night"],["Calories",d.cal,"kcal burned"]].map(function(c){return'<div class="c"><div class="mu">'+c[0]+'</div><div class="big">'+c[1]+'</div><div class="mu">'+c[2]+"</div></div>"}).join("")+'</div>'+
+'<div class="c" style="margin-top:12px"><h2>Steps this week</h2><div class="bars" style="margin-bottom:22px">'+d.week.map(function(v,i){return'<div style="height:'+Math.round(v/mx*100)+'%"><span>'+days[i]+"</span></div>"}).join("")+'</div></div>'+
+'<div class="row" style="margin-top:12px"><button class="btn" onclick="sync()">Sync now</button><button class="btn s" onclick="toRec()">Save heart rate and SpO₂ to records</button><button class="btn d" onclick="disc()">Disconnect</button></div>'};
+function gen(){var r=function(a,b){return Math.floor(a+Math.random()*(b-a))};var wk=[];for(var i=0;i<7;i++)wk.push(r(3000,12000));return{steps:r(2500,11000),hr:r(64,92),rhr:r(56,68),o2:r(95,100),sleep:(r(55,85)/10).toFixed(1),cal:r(1700,2600),week:wk}}
+function conn(w){S.dv={on:true,name:w,last:new Date().toLocaleString("en-PH"),d:gen()};save();draw()}
+function sync(){S.dv.d=gen();S.dv.last=new Date().toLocaleString("en-PH");save();draw()}
+function disc(){if(confirm("Disconnect this device?")){S.dv={on:false,name:"",last:"",d:null};save();draw()}}
+function toRec(){var d=S.dv.d;S.vt.push({id:uid(),m:"hr",a:d.hr,date:TODAY},{id:uid(),m:"spo2",a:d.o2,date:TODAY});save();alert("Saved to your records.")}
+
+V.profile=function(){var p=S.p;return'<h1>My profile and emergency card</h1><div class="c" style="max-width:560px"><label>Full name</label><input id="pn" value="'+esc(p.name)+'"><div class="row"><div><label>Age</label><input id="pa" type="number" value="'+esc(p.age)+'"></div><div><label>Blood type</label><select id="pb">'+["","A+","A-","B+","B-","AB+","AB-","O+","O-"].map(function(b){return"<option"+(p.blood===b?" selected":"")+">"+b+"</option>"}).join("")+'</select></div></div><label>Allergies</label><input id="pl" value="'+esc(p.allergy)+'" placeholder="Medicines, food, other"><div class="row"><div><label>Emergency contact</label><input id="pe" value="'+esc(p.ecn)+'"></div><div><label>Phone</label><input id="pp" value="'+esc(p.ec)+'"></div></div><div class="row"><button class="btn" onclick="saveP()">Save profile</button><button class="btn d" onclick="wipe()">Erase all data</button></div></div>'};
+function saveP(){S.p={name:$("#pn").value,age:$("#pa").value,blood:$("#pb").value,allergy:$("#pl").value,ecn:$("#pe").value,ec:$("#pp").value};save();alert("Profile saved.")}
+function wipe(){if(confirm("Erase everything saved in this browser?")){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}}
+draw();tick();
+</script><script src="avatars.js"></script>
+<script src="extras.js"></script>
+<script src="home.js"></script>
+<noscript>This demo needs JavaScript.</noscript></body></html>

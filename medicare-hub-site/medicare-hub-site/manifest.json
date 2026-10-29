@@ -1,0 +1,1 @@
+{ "name": "MediCare Hub (Demo)", "short_name": "MediCare", "start_url": "/", "display": "standalone", "background_color": "#f3f7fa", "theme_color": "#0f766e", "icons": [ { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" } ] }
